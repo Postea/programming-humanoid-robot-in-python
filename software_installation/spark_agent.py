@@ -43,63 +43,69 @@ BOTTOM_CAMERA = 'BottomCamera'
 TOP_CAMERA = 'TopCamera'
 
 
-JOINT_SENSOR_NAMES = {"hj1": 'HeadYaw',
-                      "hj2": 'HeadPitch',
-                      "laj1": 'LShoulderPitch',
-                      "laj2": 'LShoulderRoll',
-                      "laj3": 'LElbowYaw',
-                      "laj4": 'LElbowRoll',
-                      "llj1": 'LHipYawPitch',
-                      "llj2": 'LHipRoll',
-                      "llj3": 'LHipPitch',
-                      "llj4": 'LKneePitch',
-                      "llj5": 'LAnklePitch',
-                      "llj6": 'LAnkleRoll',
-                      "raj1": 'RShoulderPitch',
-                      "raj2": 'RShoulderRoll',
-                      "raj3": 'RElbowYaw',
-                      "raj4": 'RElbowRoll',
-                      "rlj1": 'RHipYawPitch',
-                      "rlj2": 'RHipRoll',
-                      "rlj3": 'RHipPitch',
-                      "rlj4": 'RKneePitch',
-                      "rlj5": 'RAnklePitch',
-                      "rlj6": 'RAnkleRoll'}
+JOINT_SENSOR_NAMES = {
+    "hj1": 'HeadYaw',
+    "hj2": 'HeadPitch',
+    "laj1": 'LShoulderPitch',
+    "laj2": 'LShoulderRoll',
+    "laj3": 'LElbowYaw',
+    "laj4": 'LElbowRoll',
+    "llj1": 'LHipYawPitch',
+    "llj2": 'LHipRoll',
+    "llj3": 'LHipPitch',
+    "llj4": 'LKneePitch',
+    "llj5": 'LAnklePitch',
+    "llj6": 'LAnkleRoll',
+    "raj1": 'RShoulderPitch',
+    "raj2": 'RShoulderRoll',
+    "raj3": 'RElbowYaw',
+    "raj4": 'RElbowRoll',
+    "rlj1": 'RHipYawPitch',
+    "rlj2": 'RHipRoll',
+    "rlj3": 'RHipPitch',
+    "rlj4": 'RKneePitch',
+    "rlj5": 'RAnklePitch',
+    "rlj6": 'RAnkleRoll',
+}
 
-JOINT_CMD_NAMES = {'HeadYaw': "he1",
-                   'HeadPitch': "he2",
-                   'LShoulderPitch': "lae1",
-                   'LShoulderRoll': "lae2",
-                   'LElbowYaw': "lae3",
-                   'LElbowRoll': "lae4",
-                   'LHipYawPitch': "lle1",
-                   'LHipRoll': "lle2",
-                   'LHipPitch': "lle3",
-                   'LKneePitch': "lle4",
-                   'LAnklePitch': "lle5",
-                   'LAnkleRoll': "lle6",
-                   'RShoulderPitch': "rae1",
-                   'RShoulderRoll': "rae2",
-                   'RElbowYaw': "rae3",
-                   'RElbowRoll': "rae4",
-                   'RHipYawPitch': "rle1",
-                   'RHipRoll': "rle2",
-                   'RHipPitch': "rle3",
-                   'RKneePitch': "rle4",
-                   'RAnklePitch': "rle5",
-                   'RAnkleRoll': "rle6"}
+JOINT_CMD_NAMES = {
+    'HeadYaw': "he1",
+    'HeadPitch': "he2",
+    'LShoulderPitch': "lae1",
+    'LShoulderRoll': "lae2",
+    'LElbowYaw': "lae3",
+    'LElbowRoll': "lae4",
+    'LHipYawPitch': "lle1",
+    'LHipRoll': "lle2",
+    'LHipPitch': "lle3",
+    'LKneePitch': "lle4",
+    'LAnklePitch': "lle5",
+    'LAnkleRoll': "lle6",
+    'RShoulderPitch': "rae1",
+    'RShoulderRoll': "rae2",
+    'RElbowYaw': "rae3",
+    'RElbowRoll': "rae4",
+    'RHipYawPitch': "rle1",
+    'RHipRoll': "rle2",
+    'RHipPitch': "rle3",
+    'RKneePitch': "rle4",
+    'RAnklePitch': "rle5",
+    'RAnkleRoll': "rle6",
+}
 
 
 # some joints are inverted in simspark compared with real NAO
-INVERSED_JOINTS = ['HeadPitch',
-                   'LShoulderPitch',
-                   'RShoulderPitch',
-                   'LHipPitch',
-                   'RHipPitch',
-                   'LKneePitch',
-                   'RKneePitch',
-                   'LAnklePitch',
-                   'RAnklePitch']
+INVERSED_JOINTS = [
+    'HeadPitch',
+    'LShoulderPitch',
+    'RShoulderPitch',
+    'LHipPitch',
+    'RHipPitch',
+    'LKneePitch',
+    'RKneePitch',
+    'LAnklePitch',
+    'RAnklePitch',
+]
 
 
 class GameState:
@@ -131,7 +137,7 @@ class Perception:
         self.see = [{}, {}]
         self.game_state = GameState()
         self.gps = {}
-        self.imu = [0, 0] # [AngleX, AngleY]
+        self.imu = [0, 0]  # [AngleX, AngleY]
         self.us = {}
 
     def update(self, sexp):
@@ -151,7 +157,11 @@ class Perception:
                     jointv[i[0]] = i[1]
                 name = JOINT_SENSOR_NAMES[jointv['n']]
                 if 'ax' in jointv:
-                    self.joint[name] = float(jointv['ax']) * DEG_TO_RAD * (-1 if name in INVERSED_JOINTS else 1)
+                    self.joint[name] = (
+                        float(jointv['ax'])
+                        * DEG_TO_RAD
+                        * (-1 if name in INVERSED_JOINTS else 1)
+                    )
                 if 'tp' in jointv:
                     self.joint_temperature[name] = float(jointv['tp'])
             elif name == VISION_PERCEPTOR or name == TOP_CAMERA:
@@ -159,8 +169,10 @@ class Perception:
             elif name == BOTTOM_CAMERA:
                 self.see[1] = self._parse_vision(s[1:])
             elif name == FORCE_RESISTANCE_PERCEPTOR:
-                self.fsr[s[1][1]] = {s[2][0]: [float(v) for v in s[2][1:]],
-                                     s[3][0]: [float(v) for v in s[3][1:]]}
+                self.fsr[s[1][1]] = {
+                    s[2][0]: [float(v) for v in s[2][1:]],
+                    s[3][0]: [float(v) for v in s[3][1:]],
+                }
             elif name == GPS_PERCEPTOR:
                 self.gps[s[1][1]] = [float(v) for v in s[2][1:]]
             elif name == BAT_PERCEPTOR:
@@ -175,7 +187,7 @@ class Perception:
             angX = atan2(data[9], data[10])
             angY = asin(-data[8])
             # convert angle range: angY in [-pi, pi], angX in [-pi/2, pi/2]
-            if (abs(angX) > pi / 2):
+            if abs(angX) > pi / 2:
                 angX = pi + angX
                 angX = atan2(sin(angX), cos(angX))  # normalize
                 angY = pi - angY
@@ -201,17 +213,27 @@ class Action(object):
         self.speed = {}
 
     def to_commands(self):
-        speed = ['(%s %.2f)' % (JOINT_CMD_NAMES[k], self.speed[k] * (-1 if k in INVERSED_JOINTS else 1)) for k in self.speed]
-        stiffness = ['(%ss %.2f)' % (JOINT_CMD_NAMES[k], self.stiffness[k]) for k in self.stiffness]
+        speed = [
+            '(%s %.2f)'
+            % (JOINT_CMD_NAMES[k], self.speed[k] * (-1 if k in INVERSED_JOINTS else 1))
+            for k in self.speed
+        ]
+        stiffness = [
+            '(%ss %.2f)' % (JOINT_CMD_NAMES[k], self.stiffness[k])
+            for k in self.stiffness
+        ]
         return ''.join(speed + stiffness)
 
 
 class SparkAgent(object):
-    def __init__(self, simspark_ip='localhost',
-                 simspark_port=3100,
-                 teamname='DAInamite',
-                 player_id=0,
-                 sync_mode=True):
+    def __init__(
+        self,
+        simspark_ip='172.29.32.1',
+        simspark_port=3100,
+        teamname='DAInamite',
+        player_id=0,
+        sync_mode=True,
+    ):
         # connect to simspark, get palyer_id
         self.sync_mode = sync_mode
         self.connect(simspark_ip, simspark_port)
@@ -219,7 +241,7 @@ class SparkAgent(object):
 
         self.send_command('(scene rsg/agent/naov4/nao.rsg)')
         self.sense()  # only need to get msg from simspark
-        init_cmd = ('(init (unum ' + str(player_id) + ')(teamname ' + teamname + '))')
+        init_cmd = '(init (unum ' + str(player_id) + ')(teamname ' + teamname + '))'
         self.send_command(init_cmd)
         self.thread = None
 
@@ -236,7 +258,9 @@ class SparkAgent(object):
     def send_command(self, commands):
         if self.sync_mode:
             commands += '(syn)'
-        self.socket.sendall(struct.pack(b"!I", len(commands)) + bytes(commands, encoding='utf8'))
+        self.socket.sendall(
+            struct.pack(b"!I", len(commands)) + bytes(commands, encoding='utf8')
+        )
 
     def connect(self, simspark_ip, simspark_port):
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -244,7 +268,7 @@ class SparkAgent(object):
 
     def sense(self):
         length = b''
-        while(len(length) < 4):
+        while len(length) < 4:
             length += self.socket.recv(4 - len(length))
         length = struct.unpack("!I", length)[0]
         msg = b''
